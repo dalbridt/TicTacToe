@@ -28,14 +28,14 @@ public class restartController {
 
     @FXML
     private Label winnerText;
-    String  winner = gameController.getWinner() == 'x'? "\"O\"":"\"X\"";
     @FXML
     void initialize() {
+        gameController.currentSym = gameController.getWinner() == 'x'? 'o':'x';
         showNewText();
+        gameController.board  = new char[3][3];
         restartButton.setOnAction(event -> {
             openNewPage();
         });
-
     }
     private void openNewPage(){
         try {
@@ -49,8 +49,14 @@ public class restartController {
         }
     }
     private void showNewText(){
-       String input = "Player " + winner + " wins!";
+        String input = new String();
+        if(gameController.hasWinner(gameController.board) == 1){
+            input = "Player \"X\" wins!";
+        } else if (gameController.hasWinner(gameController.board) == 2){
+            input = "Player \"O\" wins!";
+        } else  if(gameController.hasWinner(gameController.board) == 0) {
+            input = "It's a draw!";
+        }
         winnerText.setText(input);
     }
-
 }

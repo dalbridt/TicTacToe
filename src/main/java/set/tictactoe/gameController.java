@@ -43,9 +43,9 @@ public class gameController {
 
     @FXML
     private GridPane grid;
-    private static char currentSym = 'x';
+    public static char currentSym = 'x';
 
-    private  char[][] board = new char[3][3];
+    public static char[][] board = new char[3][3];
     public static int hasWinner(char[][] board) {
         if ((board[0][0] == 'x' || board[0][0] == 'o') && (board[0][0] == board[0][1] && board[0][0] == board[0][2])) {
             if (board[0][0] == 'x') {
@@ -112,7 +112,10 @@ public class gameController {
         if(hasWinner(board) != 0 ) {
             openNewPage();
             return;
-        } else if (btn.getText() != "") {
+        } else if (btn.getText() != "" && !noEmptyCell()) {
+            return;
+        } else if(noEmptyCell()){
+            openNewPage();
             return;
         }
         int row = GridPane.getRowIndex(btn) == null ? 0 : GridPane.getRowIndex(btn);
@@ -139,11 +142,31 @@ public class gameController {
         return currentSym;
     }
 
+    public static boolean noEmptyCell(){
+        boolean result = true ;
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(board[i][j] != 'x' && board[i][j] != 'o') {
+                    result = false;
+                    break;
+                }
+            }
+        }
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println(" we have no empty cell: " + result);
+
+        return result;
+    }
+
+
     @FXML
     void initialize() {
 
-
     }
-
 
 }
